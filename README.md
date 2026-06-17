@@ -1,0 +1,238 @@
+# Expense Tracker CLI
+
+A command-line expense tracker built in Go that allows users to manage, view, and summarize personal expenses. The application stores data locally as JSON and provides a simple CLI interface for adding, deleting, listing, and analyzing expenses.
+
+## Features
+
+- Add expenses with:
+  - Description
+  - Amount
+  - Automatically recorded date
+  - Unique expense ID
+
+- List expenses:
+  - View recent expenses
+  - Display all expenses
+  - Control output length
+
+- Delete expenses by ID
+
+- Generate summaries:
+  - View total spending
+  - Filter expenses by month
+
+- Persistent local storage using JSON
+
+- Global CLI installation support
+
+## Demo
+
+Example usage:
+
+```bash
+expense-tracker add --description "Lunch" --amount 12.50
+```
+
+Output:
+
+```
+Expense added successfully (ID: 1)
+```
+
+List expenses:
+
+```bash
+expense-tracker list
+```
+
+Example:
+
+```
+ID    Date         Description                  Amount
+------------------------------------------------------
+1     2026-06-17   Lunch                        $12.50
+2     2026-06-17   Gas                          $40.00
+
+2 expenses shown
+```
+
+Generate a summary:
+
+```bash
+expense-tracker summary --month 6
+```
+
+Output:
+
+```
+1  2026-06-17  Lunch  $12.50
+
+Total expenses for June: $12.50
+```
+
+## Installation
+
+### Requirements
+
+- Go 1.20+
+
+### Install from source
+
+Clone the repository:
+
+```bash
+git clone https://github.com/tyler-mcmullin/go-cli-expense-tracker.git
+cd go-cli-expense-tracker
+```
+
+Install the CLI:
+
+```bash
+go install ./cmd/expense-tracker
+```
+
+Verify installation:
+
+```bash
+expense-tracker help
+```
+
+The executable will be installed to:
+
+```
+~/go/bin/expense-tracker
+```
+
+Make sure this directory is included in your PATH.
+
+## Usage
+
+### Add an expense
+
+```bash
+expense-tracker add --description "Coffee" --amount 5.75
+```
+
+### List expenses
+
+Show recent expenses:
+
+```bash
+expense-tracker list
+```
+
+Change the number displayed:
+
+```bash
+expense-tracker list --len 10
+```
+
+Show all expenses:
+
+```bash
+expense-tracker list --all
+```
+
+### Delete an expense
+
+```bash
+expense-tracker delete --id 3
+```
+
+### View spending summary
+
+Show all expenses:
+
+```bash
+expense-tracker summary
+```
+
+Show expenses for a specific month:
+
+```bash
+expense-tracker summary --month 6
+```
+
+### Help
+
+```bash
+expense-tracker help
+```
+
+## Storage
+
+Expenses are stored locally in:
+
+```
+~/.expense-tracker/expenses.json
+```
+
+Example data:
+
+```json
+[
+  {
+    "id": 1,
+    "description": "Lunch",
+    "amount": 12.5,
+    "date": "2026-06-17"
+  }
+]
+```
+
+## Project Structure
+
+```
+.
+├── cmd
+│   └── expense-tracker
+│       └── main.go
+│
+├── expense
+│   ├── commands.go
+│   ├── expense.go
+│   └── storage.go
+│
+├── go.mod
+└── README.md
+```
+
+## Technologies
+
+- Go
+- JSON
+- Standard Library
+  - flag
+  - encoding/json
+  - os
+  - time
+
+## Design Notes
+
+The project follows a package-based Go structure:
+
+- `cmd/expense-tracker`
+  - Handles CLI input and command routing
+
+- `expense`
+  - Contains application logic
+  - Handles expense operations
+  - Manages JSON persistence
+
+Storage and command logic are separated to keep the code modular and maintainable.
+
+## Future Improvements
+
+Potential future additions:
+
+- Add expense categories
+- Export reports (CSV/PDF)
+- Add recurring expenses
+- Add monthly budgets
+- Add unit tests
+- Add database support
+- Add interactive terminal UI
+
+## License
+
+MIT License

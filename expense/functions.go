@@ -116,18 +116,21 @@ func ListExpenses() error {
 
 	total := 0
 
-	fmt.Printf("%-5s %-12s %-20s %10s\n",
+	fmt.Printf("%-5s %-12s %-20s %12s\n",
 		"ID",
 		"Date",
 		"Description",
 		"Amount",
 	)
+
+	fmt.Println("----------------------------------------------------")
+
 	for _, expense := range expensesToShow {
-		fmt.Printf("%-5d %-12s %-20s $%9.2f\n",
+		fmt.Printf("%-5d %-12s %-20s %12s\n",
 			expense.ID,
 			expense.Date,
 			expense.Description,
-			expense.Amount,
+			fmt.Sprintf("$%.2f", expense.Amount),
 		)
 		total++
 	}
@@ -166,6 +169,15 @@ func ShowSummary() error {
 		return nil
 	}
 
+	fmt.Printf("%-5s %-12s %-20s %12s\n",
+		"ID",
+		"Date",
+		"Description",
+		"Amount",
+	)
+
+	fmt.Println("----------------------------------------------------")
+
 	for _, expense := range expenses {
 
 		date, err := time.Parse("2006-01-02", expense.Date)
@@ -174,11 +186,12 @@ func ShowSummary() error {
 		}
 
 		if int(date.Month()) == *month {
-			fmt.Println(
+			fmt.Printf(
+				"%-5d %-12s %-20s %12s\n",
 				expense.ID,
 				expense.Date,
 				expense.Description,
-				expense.Amount,
+				fmt.Sprintf("$%.2f", expense.Amount),
 			)
 
 			total += expense.Amount
