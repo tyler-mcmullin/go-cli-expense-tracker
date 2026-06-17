@@ -1,6 +1,6 @@
 # Expense Tracker CLI
 
-A command-line expense tracker built in Go that allows users to manage, view, and summarize personal expenses. The application stores data locally as JSON and provides a simple CLI interface for adding, deleting, listing, and analyzing expenses.
+A command-line expense tracker built in Go that allows users to manage, view, and summarize personal expenses. The application stores data locally as JSON and provides a simple CLI interface for adding, deleting, listing, and summarizing expenses by month or all-time.
 
 ## Features
 
@@ -8,7 +8,7 @@ A command-line expense tracker built in Go that allows users to manage, view, an
   - Description
   - Amount
   - Automatically recorded date
-  - Unique expense ID
+  - Automatically generated unique expense ID
 
 - List expenses:
   - View recent expenses
@@ -30,13 +30,13 @@ A command-line expense tracker built in Go that allows users to manage, view, an
 Example usage:
 
 ```bash
-expense-tracker add --description "Lunch" --amount 12.50
+expense-tracker add --description "Dinner" --amount 20.50
 ```
 
 Output:
 
 ```
-Expense added successfully (ID: 1)
+Expense added successfully (ID: 1 )
 ```
 
 List expenses:
@@ -48,10 +48,10 @@ expense-tracker list
 Example:
 
 ```
-ID    Date         Description                  Amount
-------------------------------------------------------
-1     2026-06-17   Lunch                        $12.50
-2     2026-06-17   Gas                          $40.00
+ID    Date         Description             Amount
+----------------------------------------------------
+1     2026-06-17   Lunch                   $12.50
+2     2026-06-17   Gas                     $40.00
 
 2 expenses shown
 ```
@@ -65,9 +65,24 @@ expense-tracker summary --month 6
 Output:
 
 ```
-1  2026-06-17  Lunch  $12.50
+ID    Date         Description                Amount
+----------------------------------------------------
+1     2026-06-17   Dinner                     $14.00
+3     2026-06-17   Food                       $50.00
 
-Total expenses for June: $12.50
+Total expenses for June: $64.00
+```
+
+Or view total expenditure:
+
+```bash
+expense-tracker summary
+```
+
+Output:
+
+```
+Total expenses: $64.00
 ```
 
 ## Installation
@@ -115,7 +130,7 @@ expense-tracker add --description "Coffee" --amount 5.75
 
 ### List expenses
 
-Show recent expenses:
+Show expenses (this defaults to 30):
 
 ```bash
 expense-tracker list
@@ -141,19 +156,21 @@ expense-tracker delete --id 3
 
 ### View spending summary
 
-Show all expenses:
+Show total of all expenses:
 
 ```bash
 expense-tracker summary
 ```
 
-Show expenses for a specific month:
+Show expenditure summary for a specific month:
 
 ```bash
 expense-tracker summary --month 6
 ```
 
 ### Help
+
+Shows list of commands, flags, and associated values/defaults
 
 ```bash
 expense-tracker help
@@ -189,15 +206,16 @@ Example data:
 │       └── main.go
 │
 ├── expense
-│   ├── commands.go
+│   ├── constants.go
 │   ├── expense.go
+│   ├── functions.go
 │   └── storage.go
 │
 ├── go.mod
 └── README.md
 ```
 
-## Technologies
+## Technologies Used
 
 - Go
 - JSON
@@ -215,24 +233,18 @@ The project follows a package-based Go structure:
   - Handles CLI input and command routing
 
 - `expense`
-  - Contains application logic
-  - Handles expense operations
-  - Manages JSON persistence
+  - Handles expense type structure
+  - Manages ID numbers
+
+- `constants`
+  - Stores months as key:value pairs
+
+- `storage`
+  - Helper functions related to saving new JSON data and loading existing JSON data
+  - Keeps data local to /.expense-tracker
+
+- `functions`
+  - Main command logic routed to by expense-tracker
+  - Contains logic for add, delete, list, summary, and help commands
 
 Storage and command logic are separated to keep the code modular and maintainable.
-
-## Future Improvements
-
-Potential future additions:
-
-- Add expense categories
-- Export reports (CSV/PDF)
-- Add recurring expenses
-- Add monthly budgets
-- Add unit tests
-- Add database support
-- Add interactive terminal UI
-
-## License
-
-MIT License
