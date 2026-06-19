@@ -45,12 +45,8 @@ func main() {
 			return
 		}
 	case "help":
-		err := expense.ShowHelp()
+		expense.ShowHelp()
 
-		if err != nil {
-			fmt.Println("Could not show help: ", err)
-			return
-		}
 	default:
 		fmt.Println("Unknown command: ", os.Args[1], " - Try \"expense-tracker help\"")
 	}
